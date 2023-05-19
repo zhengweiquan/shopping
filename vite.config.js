@@ -14,8 +14,8 @@ export default defineConfig({
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
-    Components({
-      resolvers: [ElementPlusResolver()],
+    Components({  //主题定制通知
+      resolvers: [ElementPlusResolver({importStyle: "sass"})],
     }),
   ],
   resolve: {
@@ -23,4 +23,12 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  // 主题定制
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "@/styles/element/index.scss" as *;`,
+      },
+    },
+  }
 })
