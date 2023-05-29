@@ -24,6 +24,7 @@ html {
 
 body {
   margin: 0;
+  background: #ececec;
 }
 
 /**
@@ -82,8 +83,12 @@ pre {
 
 a {
   background-color: transparent;
+  text-decoration: none;
+  color: azure;
 }
-
+a:hover {
+  color: red;
+}
 /**
  * 1. Remove the bottom border in Chrome 57-
  * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
