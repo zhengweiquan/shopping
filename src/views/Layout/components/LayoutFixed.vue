@@ -23,7 +23,7 @@ onMounted(() => {
           <RouterLink to="/">首页</RouterLink>
         </li>
         <li v-for="item in List" :key="item.name">
-          <RouterLink to="/">{{ item.name }}</RouterLink>
+          <RouterLink active-class="active" :to="`/category/${item.id}`">{{ item.name }}</RouterLink>
         </li>
       </ul>
 

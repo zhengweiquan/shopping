@@ -13,3 +13,5 @@ app.use(createPinia())
 app.use(router)
 
 app.mount('#app')
+// 定义全局指令  图片懒加载
+

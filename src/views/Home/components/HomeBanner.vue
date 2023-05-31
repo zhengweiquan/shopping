@@ -5,7 +5,6 @@
  const BanneeerAPI = async()=> {    
   const res =  await getBanneeerAPI()
   bannerList.value = res.data.result
-  console.log(bannerList)
  }
  onMounted(() => {
   BanneeerAPI()

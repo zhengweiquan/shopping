@@ -18,8 +18,10 @@ onMounted(() => {
         <RouterLink to="/">小兔鲜</RouterLink>
       </h1>
       <ul class="app-header-nav">
+        <li><RouterLink to="/">首页</RouterLink></li>
         <li class="home" v-for=" item in getCategoryList" :key="item.id">
-          <RouterLink to="/">{{ item.name }}</RouterLink>
+          <!-- 路由动态拼接id -->
+          <RouterLink active-class="active" :to="`/category/${item.id}`">{{ item.name }}</RouterLink>
         </li>
       </ul>
       <div class="search">
