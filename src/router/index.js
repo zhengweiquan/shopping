@@ -3,7 +3,7 @@ import Category from '../views/Category/category.vue'
 import Home from '../views/Home/home.vue'
 import layout from '../views/Layout/layout.vue'
 import Login from '../views/Login/login.vue'
-
+import SubCategory from '@/views/SubCategory/SubCategory.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -13,7 +13,8 @@ const router = createRouter({
       component: layout,
       children: [
         { path: '', name: 'Home',component: Home},
-        { path: 'category/:id', name: 'Category',component: Category}
+        { path: 'category/:id', name: 'Category',component: Category},
+        { path: 'category/sub/:id', name: 'SubCategory',component: SubCategory}
       ],
     },
     {
