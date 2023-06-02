@@ -4,6 +4,7 @@ import Home from '../views/Home/home.vue'
 import layout from '../views/Layout/layout.vue'
 import Login from '../views/Login/login.vue'
 import SubCategory from '@/views/SubCategory/SubCategory.vue'
+import Detail from '@/views/Detail/Detail.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -14,7 +15,8 @@ const router = createRouter({
       children: [
         { path: '', name: 'Home',component: Home},
         { path: 'category/:id', name: 'Category',component: Category},
-        { path: 'category/sub/:id', name: 'SubCategory',component: SubCategory}
+        { path: 'category/sub/:id', name: 'SubCategory',component: SubCategory},
+        { path: 'detail/:id', name: 'Detail',component: Detail}
       ],
     },
     {
@@ -26,6 +28,12 @@ const router = createRouter({
       component: Login,
     },
   ],
+  // 路由切换后滚动到顶部
+  scrollBehavior () {
+    return {
+      top: 0
+    }
+  }
 })
 
 export default router

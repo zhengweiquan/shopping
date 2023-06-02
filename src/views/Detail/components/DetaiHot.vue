@@ -1,0 +1,82 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import { getHotAPI } from '@/apis/detail'
+import { useRoute } from 'vue-router'
+const pros = defineProps({  //接收数据
+  top: String,
+  Hottype: Number
+})
+const route = useRoute()
+const HotList = ref([])
+const getHotAPILIst = async () => {
+  const res = await getHotAPI({
+    id: route.params.id,
+    type: pros.Hottype,   //1 是24H热榜 2 是周热榜
+    limit: 3   //请求3个数据
+  })
+  HotList.value = res.data.result
+}
+onMounted(() => {
+  getHotAPILIst()
+})
+</script>
+ 
+ 
+<template>
+  <div class="goods-hot">
+    <h3>{{ pros.top }}</h3>
+    <!-- 商品区块 -->
+    <RouterLink to="/" class="goods-item" v-for="item in HotList" :key="item.id">
+      <img :src="item.picture" alt="" />
+      <p class="name ellipsis">{{item.name}}</p>
+      <p class="desc ellipsis">{{ item.desc }}</p>
+      <p class="price">{{ item.price }}</p>
+    </RouterLink>
+  </div>
+</template>
+ 
+ 
+<style scoped lang="scss">
+.goods-hot {
+  h3 {
+    height: 70px;
+    background: $helpColor;
+    color: #fff;
+    font-size: 18px;
+    line-height: 70px;
+    padding-left: 25px;
+    margin-bottom: 10px;
+    font-weight: normal;
+  }
+
+  .goods-item {
+    display: block;
+    padding: 20px 30px;
+    text-align: center;
+    background: #fff;
+
+    img {
+      width: 160px;
+      height: 160px;
+    }
+
+    p {
+      padding-top: 10px;
+    }
+
+    .name {
+      font-size: 16px;
+    }
+
+    .desc {
+      color: #999;
+      height: 29px;
+    }
+
+    .price {
+      color: $priceColor;
+      font-size: 20px;
+    }
+  }
+}
+</style>

@@ -1,14 +1,23 @@
 <!-- 放大镜大图 -->
 <script setup>
 import {ref} from 'vue'
+// import { useMouseInElement } from '@vueuse/core'  //获取鼠标位置
+const target = ref(null)
+// const { elementX, elementY, isOutside } = useMouseInElement(target)
 // 图片列表
-const imageList = [
-  "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
-  "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
-  "https://yanxuan-item.nosdn.127.net/b52c447ad472d51adbdde1a83f550ac2.jpg",
-  "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
-  "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
-]
+defineProps({
+  imageList: {
+    type: Array,
+    default: ()=> []  //返回一个空数组
+  }
+})
+// const imageList = [
+//   "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
+//   "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
+//   "https://yanxuan-item.nosdn.127.net/b52c447ad472d51adbdde1a83f550ac2.jpg",
+//   "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
+//   "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
+// ]
 // 小图切换大图显示
 const activeIndex = ref(0)
 const mouseenterin = (i)=> {
@@ -73,7 +82,7 @@ const mouseenterin = (i)=> {
     width: 200px;
     height: 200px;
     border-radius: 10px;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0);
     // 绝对定位 然后跟随咱们鼠标控制left和top属性就可以让滑块移动起来
     left: 0;
     top: 0;
