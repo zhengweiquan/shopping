@@ -1,5 +1,7 @@
 // 这个是axios请求文件
 // axios文件
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
 import axios from 'axios'
 const http = axios.create({
   baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
@@ -16,6 +18,11 @@ http.interceptors.request.use(config => {   //配置请求拦截器
 http.interceptors.response.use(function (response) {
   return response
 },function (error) {
-  return Promise.reject(error)}  //对请求错误做点什么
+  ElMessage({
+    type: 'warning',
+    message: error.response.data.message
+  })
+  return Promise.reject(error)//对请求错误做点什么
+}  
 )
 export default http
