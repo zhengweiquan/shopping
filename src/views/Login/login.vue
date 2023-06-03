@@ -1,21 +1,61 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
-import {ref} from 'vue'
+import { ref } from 'vue'
+import {useRouter} from 'vue-router' //跳转路由到登录页面
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import { loginAPI } from '@/apis/user'  //数据提交登录
+const Router = useRouter()
+// 自定义校验规则函数
+const validatePass = (rule, value, callback) => {  // 调用callback()就通过规则
+  if (value) {
+    callback()
+  } else {
+    callback(new Error('请勾选协议！'))
+  }
+}
+// 自动填写账号密码 
+const aotuwrite = ()=> {
+  form.value.account = 'heima282'
+  form.value.password = 'hm#qd@23!'
+  form.value.agree = true
+}
 // 准备标段数据 用于动态绑定输入框
 const form = ref({
   account: '',
-  password: ''
+  password: '',
+  agree: false
 })
 // 准备表单验证的规则 用于表单验证数据 大表单绑定rules，大笔表单里面的输入框绑定account和password
 const rules = {
   account: [
-  { required: true, message: '账号不能为空', trigger: 'blur' },
+    { required: true, message: '请输入账号！', trigger: 'blur' },
   ],
   password: [
-  { required: true, message: '密码不能为空', trigger: 'blur' },
-  { min: 6, max: 14, message: '密码为6~14位数', trigger: 'blur' },
+    { required: true, message: '请输入密码！', trigger: 'blur' },
+    { min: 6, max: 14, message: '密码为6~14位数', trigger: 'blur' },
+  ],
+  agree: [{ validator: validatePass, }],
+}
 
-  ]
+// 防止用户一上来就点击登录从而错过表单验证
+const formRef = ref(null)   //绑定dom
+const doLogin = () => {
+  const { account, password } = form.value
+  formRef.value.validate(async (valid) => {
+    // valid 代表所有项表单
+    if (valid) {
+      // console.log({account: form.value.account,password: form.value.password})
+      const res = await loginAPI({ account, password })
+      console.log(res)
+      // 提示用户
+      ElMessage({ type: 'success', message: '登录成功' })
+      Router.replace({path: '/'})  //跳转路由到首页
+    } else {
+      console.log('请填写数据')
+      return false
+    }
+  })
 }
 </script>
  
@@ -40,26 +80,26 @@ const rules = {
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form label-position="right" label-width="60px" :model="form" :rules="rules"
-              status-icon>
-              <el-form-item  label="账户" prop="account">
-                <el-input v-model="form.account"/>
+            <el-form ref="formRef" label-position="right" label-width="60px" :model="form" :rules="rules" status-icon>
+              <el-form-item label="账户" prop="account">
+                <el-input v-model="form.account" />
               </el-form-item>
               <el-form-item label="密码" prop="password">
-                <el-input v-model="form.password"/>
+                <el-input v-model="form.password" type="password" />
               </el-form-item>
-              <el-form-item label-width="22px">
-                <el-checkbox  size="large">
+              <el-form-item label-width="22px" prop="agree">
+                <el-checkbox size="large" v-model="form.agree">
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn">点击登录</el-button>
+              <el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
+              <el-button class="aotu" @click="aotuwrite">自动填写账号密码</el-button>
             </el-form>
           </div>
         </div>
       </div>
     </section>
- 
+
     <footer class="login-footer">
       <div class="container">
         <p>
@@ -81,16 +121,16 @@ const rules = {
 .login-header {
   background: #fff;
   border-bottom: 1px solid #e4e4e4;
- 
+
   .container {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
   }
- 
+
   .logo {
     width: 200px;
- 
+
     a {
       display: block;
       height: 132px;
@@ -99,7 +139,7 @@ const rules = {
       background: url("@/assets/images/logo.png") no-repeat center 18px / contain;
     }
   }
- 
+
   .sub {
     flex: 1;
     font-size: 24px;
@@ -108,12 +148,12 @@ const rules = {
     margin-left: 20px;
     color: #666;
   }
- 
+
   .entry {
     width: 120px;
     margin-bottom: 38px;
     font-size: 16px;
- 
+
     i {
       font-size: 14px;
       color: $xtxColor;
@@ -121,12 +161,12 @@ const rules = {
     }
   }
 }
- 
+
 .login-section {
   background: url('@/assets/images/login-bg.png') no-repeat center / cover;
   height: 488px;
   position: relative;
- 
+
   .wrapper {
     width: 380px;
     background: #fff;
@@ -135,7 +175,7 @@ const rules = {
     top: 54px;
     transform: translate3d(100px, 0, 0);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
- 
+
     nav {
       font-size: 14px;
       height: 55px;
@@ -145,7 +185,7 @@ const rules = {
       padding: 0 40px;
       text-align: right;
       align-items: center;
- 
+
       a {
         flex: 1;
         line-height: 1;
@@ -157,53 +197,53 @@ const rules = {
     }
   }
 }
- 
+
 .login-footer {
   padding: 30px 0 50px;
   background: #fff;
- 
+
   p {
     text-align: center;
     color: #999;
     padding-top: 20px;
- 
+
     a {
       line-height: 1;
       padding: 0 10px;
       color: #999;
       display: inline-block;
- 
+
       ~a {
         border-left: 1px solid #ccc;
       }
     }
   }
 }
- 
+
 .account-box {
   .toggle {
     padding: 15px 40px;
     text-align: right;
- 
+
     a {
       color: $xtxColor;
- 
+
       i {
         font-size: 14px;
       }
     }
   }
- 
+
   .form {
     padding: 0 20px 20px 20px;
- 
+
     &-item {
       margin-bottom: 28px;
- 
+
       .input {
         position: relative;
         height: 36px;
- 
+
         >i {
           width: 34px;
           height: 34px;
@@ -216,24 +256,24 @@ const rules = {
           line-height: 34px;
           font-size: 18px;
         }
- 
+
         input {
           padding-left: 44px;
           border: 1px solid #cfcdcd;
           height: 36px;
           line-height: 36px;
           width: 100%;
- 
+
           &.error {
             border-color: $priceColor;
           }
- 
+
           &.active,
           &:focus {
             border-color: $xtxColor;
           }
         }
- 
+
         .code {
           position: absolute;
           right: 1px;
@@ -248,26 +288,26 @@ const rules = {
           cursor: pointer;
         }
       }
- 
+
       >.error {
         position: absolute;
         font-size: 12px;
         line-height: 28px;
         color: $priceColor;
- 
+
         i {
           font-size: 14px;
           margin-right: 2px;
         }
       }
     }
- 
+
     .agree {
       a {
         color: #069;
       }
     }
- 
+
     .btn {
       display: block;
       width: 100%;
@@ -276,19 +316,19 @@ const rules = {
       text-align: center;
       line-height: 40px;
       background: $xtxColor;
- 
+
       &.disabled {
         background: #cfcdcd;
       }
     }
   }
- 
+
   .action {
     padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
- 
+
     .url {
       a {
         color: #999;
@@ -297,10 +337,15 @@ const rules = {
     }
   }
 }
- 
+
 .subBtn {
   background: $xtxColor;
   width: 100%;
   color: #fff;
+}
+.aotu {
+  width: 100%;
+  margin-top: 10px;
+  margin-left: 0;
 }
 </style>
