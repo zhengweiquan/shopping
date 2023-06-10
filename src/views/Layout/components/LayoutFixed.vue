@@ -1,10 +1,10 @@
 <script setup>
-import {useScroll} from '@vueuse/core'
-const {y} = useScroll(window)
-import {ref,onMounted} from 'vue'
-import {getCategoryAPI} from '@/apis/layout.js'
+import { useScroll } from '@vueuse/core'
+const { y } = useScroll(window)
+import { ref, onMounted } from 'vue'
+import { getCategoryAPI } from '@/apis/layout.js'
 const List = ref([])
-const getCategory = async() => {
+const getCategory = async () => {
   const res = await getCategoryAPI()
   List.value = res.data.result
 }
@@ -14,9 +14,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="app-header-sticky" :class="{show: y >= 78}">  <!--动态绑定show类-->
+  <div class="app-header-sticky" :class="{ show: y >= 78 }"> <!--动态绑定show类-->
     <div class="container">
       <RouterLink class="logo" to="/" />
+      <h1>万悦汇购物城</h1>
       <!-- 导航区域 -->
       <ul class="app-header-nav ">
         <li class="home">
@@ -66,8 +67,8 @@ onMounted(() => {
   .logo {
     width: 200px;
     height: 80px;
-    background: url("@/assets/images/logo.png") no-repeat right 2px;
-    background-size: 160px auto;
+    background: url("@/assets/images/logo.png") no-repeat center 5px;
+    background-size: 70px auto;
   }
 
   .right {

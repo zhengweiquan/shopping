@@ -1,10 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 import { ref } from 'vue'
-import {useRouter} from 'vue-router' //跳转路由到登录页面
+import { useRouter } from 'vue-router' //跳转路由到登录页面
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
-import { loginAPI } from '@/apis/user'  //数据提交登录
+// import { loginAPI } from '@/apis/user'  //数据提交登录
+import { useUseStore } from '@/stores/user'  //数据获取
+const useStore = useUseStore()
 const Router = useRouter()
 // 自定义校验规则函数
 const validatePass = (rule, value, callback) => {  // 调用callback()就通过规则
@@ -15,14 +17,15 @@ const validatePass = (rule, value, callback) => {  // 调用callback()就通过�
   }
 }
 // 自动填写账号密码 
-const aotuwrite = ()=> {
-  form.value.account = 'heima282'
+const aotuwrite = () => {
+  form.value.account2 = 'admin'
   form.value.password = 'hm#qd@23!'
   form.value.agree = true
 }
 // 准备标段数据 用于动态绑定输入框
 const form = ref({
-  account: '',
+  account: 'heima290',  //实际提交的
+  account2: '',  //显示的
   password: '',
   agree: false
 })
@@ -46,11 +49,11 @@ const doLogin = () => {
     // valid 代表所有项表单
     if (valid) {
       // console.log({account: form.value.account,password: form.value.password})
-      const res = await loginAPI({ account, password })
-      console.log(res)
+      // const res = await loginAPI({ account, password })
+      await useStore.getUserInfo({ account, password })
       // 提示用户
       ElMessage({ type: 'success', message: '登录成功' })
-      Router.replace({path: '/'})  //跳转路由到首页
+      Router.replace({ path: '/' })  //跳转路由到首页
     } else {
       console.log('请填写数据')
       return false
@@ -82,7 +85,7 @@ const doLogin = () => {
           <div class="form">
             <el-form ref="formRef" label-position="right" label-width="60px" :model="form" :rules="rules" status-icon>
               <el-form-item label="账户" prop="account">
-                <el-input v-model="form.account" />
+                <el-input v-model="form.account2" />
               </el-form-item>
               <el-form-item label="密码" prop="password">
                 <el-input v-model="form.password" type="password" />
@@ -92,8 +95,8 @@ const doLogin = () => {
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
               <el-button class="aotu" @click="aotuwrite">自动填写账号密码</el-button>
+              <el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
             </el-form>
           </div>
         </div>
@@ -111,7 +114,6 @@ const doLogin = () => {
           <a href="javascript:;">搜索推荐</a>
           <a href="javascript:;">友情链接</a>
         </p>
-        <p>CopyRight © 小兔鲜儿</p>
       </div>
     </footer>
   </div>
@@ -133,10 +135,10 @@ const doLogin = () => {
 
     a {
       display: block;
-      height: 132px;
+      height: 93px;
       width: 100%;
       text-indent: -9999px;
-      background: url("@/assets/images/logo.png") no-repeat center 18px / contain;
+      background: url("@/assets/images/logo.png") no-repeat center 1px / contain;
     }
   }
 
@@ -340,12 +342,14 @@ const doLogin = () => {
 
 .subBtn {
   background: $xtxColor;
+  margin-top: 10px;
   width: 100%;
   color: #fff;
 }
+
 .aotu {
-  width: 100%;
-  margin-top: 10px;
+  margin-left: 12px !important;
+  width: 99%;
   margin-left: 0;
 }
 </style>

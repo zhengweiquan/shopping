@@ -1,6 +1,7 @@
-<script setup> 
+<script setup>
 import { getCategoryAPI } from '@/apis/layout.js'
-import { onMounted,ref} from 'vue'
+import { onMounted, ref } from 'vue'
+import HearderCart from './HearderCart.vue'
 const getCategoryList = ref([])
 const getCategory = async () => {
   const res = await getCategoryAPI()
@@ -10,15 +11,18 @@ onMounted(() => {
   getCategory()
 })
 </script>
-
+ 
 <template>
   <header class='app-header'>
     <div class="container">
       <h1 class="logo">
-        <RouterLink to="/">小兔鲜</RouterLink>
+        <RouterLink to="/">万悦汇购物城</RouterLink>
       </h1>
+      <h2 style="width: 68px;">万悦汇<br>购物城</h2>
       <ul class="app-header-nav">
-        <li><RouterLink to="/">首页</RouterLink></li>
+        <li>
+          <RouterLink to="/">首页</RouterLink>
+        </li>
         <li class="home" v-for=" item in getCategoryList" :key="item.id">
           <!-- 路由动态拼接id -->
           <RouterLink active-class="active" :to="`/category/${item.id}`">{{ item.name }}</RouterLink>
@@ -29,7 +33,7 @@ onMounted(() => {
         <input type="text" placeholder="搜一搜">
       </div>
       <!-- 头部购物车 -->
-
+      <HearderCart></HearderCart>
     </div>
   </header>
 </template>
@@ -46,13 +50,14 @@ onMounted(() => {
 
   .logo {
     width: 200px;
+    height: 132px;
 
     a {
       display: block;
-      height: 132px;
-      width: 100%;
+      height: 131px;
+      width: 78%;
       text-indent: -9999px;
-      background: url('@/assets/images/logo.png') no-repeat center 18px / contain;
+      background: url('@/assets/images/logo.png') no-repeat right 1px / contain;
     }
   }
 
