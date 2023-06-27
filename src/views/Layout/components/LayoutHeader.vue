@@ -18,7 +18,7 @@ onMounted(() => {
       <h1 class="logo">
         <RouterLink to="/">万悦汇购物城</RouterLink>
       </h1>
-      <h2 style="width: 68px;">万悦汇<br>购物城</h2>
+      <h2 style="width: 102px;">万悦汇<br>购物城</h2>
       <ul class="app-header-nav">
         <li>
           <RouterLink to="/">首页</RouterLink>
@@ -28,10 +28,10 @@ onMounted(() => {
           <RouterLink active-class="active" :to="`/category/${item.id}`">{{ item.name }}</RouterLink>
         </li>
       </ul>
-      <div class="search">
+      <!-- <div class="search">
         <i class="iconfont icon-search"></i>
         <input type="text" placeholder="搜一搜">
-      </div>
+      </div> -->
       <!-- 头部购物车 -->
       <HearderCart></HearderCart>
     </div>

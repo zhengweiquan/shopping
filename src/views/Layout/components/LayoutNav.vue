@@ -5,7 +5,7 @@ import { useUseStore } from '@/stores/user'
 const router = useRouter()     //而要写在外面
 const usetore = useUseStore()
 const yes = () => {
-  usetore.clearUserInfo()  //调用里面的函数清空token
+  usetore.clearUserInfo()  //调用里面的函数清空toke和清空购物车
 // const router = useRouter()  为什么这个写在这里不行
   router.replace({ path: '/login' })
 }
@@ -24,7 +24,7 @@ const yes = () => {
               </template>
             </el-popconfirm>
           </li>
-          <li><a href="javascript:;">我的订单</a></li>
+          <li><a href="javascript:;" @click="$router.push('/cartlist')">我的购物车</a></li>
           <li><a href="javascript:;">会员中心</a></li>
         </template>
         <template v-else>

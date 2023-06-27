@@ -1,7 +1,7 @@
 <script setup>
 import {useCartStore} from '@/stores/cartStore'
 const CartStore = useCartStore()
-</script>
+</script> 
  
 <template>
   <div class="cart">
@@ -11,6 +11,7 @@ const CartStore = useCartStore()
     <div class="layer">
       <div class="list">
         <!-- 需要渲染的列表 -->
+        <p class="centers" v-if="CartStore.cartList.length===0">购物车列表为空</p>
         <div class="item" v-for="i in CartStore.cartList" :key="i">
           <RouterLink to="">
             <img :src="i.picture" alt="" />
@@ -78,7 +79,13 @@ const CartStore = useCartStore()
       transform: none;
     }
   }
- 
+ .centers {
+  color: #999;
+  font-size: large;
+  margin-left: 55%;
+  margin-top: 45%;
+  transform: translate(-50%);
+ }
   .layer {
     opacity: 0;
     transition: all 0.4s 0.2s;

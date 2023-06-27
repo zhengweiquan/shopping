@@ -12,13 +12,13 @@ onMounted(() => {
 })
 
 </script>
- 
+  
 <template>
   <HomePanel title="人气推荐" subtitle="万人购买 值得信赖">
     <!-- 下面是插槽主体内容模版 -->
     <ul class="goods-list">
       <li v-for="item in HotList" :key="item.id">
-        <RouterLink to="/">
+        <RouterLink :to="`/detail/${item.id}`">
           <img :src="item.picture" alt="" />
           <p class="name">{{ item.title }}</p>
           <p class="price">{{ item.alt }}</p>

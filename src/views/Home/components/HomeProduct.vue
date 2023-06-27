@@ -17,13 +17,13 @@ onMounted(()=> {
   <div class="home-product">
     <HomePanel :title="cate.name" v-for="cate in ProductList" :key="cate.id">
       <div class="box">
-        <RouterLink class="cover" to="/">
+        <a class="cover">
           <img :src="cate.picture" />
           <strong class="label">
             <span>{{ cate.name }}馆</span>
-            <span>{{ cate.saleInfo }}</span>
+            <span style="overflow: hidden;">{{ cate.saleInfo }}</span>
           </strong>
-        </RouterLink>
+        </a>
         <ul class="goods-list">
           <li v-for="good in cate.goods" :key="good.id">
             <GoodsItem :good="good"></GoodsItem>

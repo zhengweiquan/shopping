@@ -6,15 +6,23 @@
   const res =  await getBanneeerAPI()
   bannerList.value = res.data.result
  }
+ const loading = ref(true)
+
  onMounted(() => {
   BanneeerAPI()
+  if(bannerList.value) {
+    loading.value = false
+  }else {
+    loading.value = true
+  }
  })
+
 </script>
  
   
  
 <template>
-  <div class="home-banner">
+  <div class="home-banner" v-loading="loading">
     <el-carousel height="500px">
       <el-carousel-item v-for="item in bannerList" :key="item.id">
         <a href="#"><img :src="item.imgUrl" alt=""></a>

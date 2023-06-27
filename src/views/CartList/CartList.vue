@@ -1,6 +1,6 @@
 <script setup>
 import { useCartStore } from '@/stores/cartStore'
-const CartStore = useCartStore()
+const CartStore = useCartStore() 
 // 单选回调
 const singCheck = (skuId,selected)=> {
   CartStore.singleCheck(skuId,selected)
@@ -8,6 +8,9 @@ const singCheck = (skuId,selected)=> {
 // 全选
 const all = (selected)=> {
   CartStore.allCheck(selected)
+}
+const delCart = (i)=> {
+  CartStore.delCart(i)
 }
 </script>
  
@@ -55,9 +58,9 @@ const all = (selected)=> {
               </td>
               <td class="tc">
                 <p>
-                  <el-popconfirm title="确认删除吗?" confirm-button-text="确认" cancel-button-text="取消" @confirm="delCart(i)">
+                  <el-popconfirm title="确认删除吗?" confirm-button-text="确认" cancel-button-text="取消" @confirm="delCart(i.skuId)">
                     <template #reference>
-                      <a href="javascript:;">删除</a>
+                      <a href="javascript:;" style="color: red;">删除</a>
                     </template>
                   </el-popconfirm>
                 </p>
@@ -67,7 +70,7 @@ const all = (selected)=> {
               <td colspan="6">
                 <div class="cart-none">
                   <el-empty description="购物车列表为空">
-                    <el-button type="primary">随便逛逛</el-button>
+                    <el-button type="primary" @click="$router.push('/')">随便逛逛</el-button>
                   </el-empty>
                 </div>
               </td>
@@ -79,15 +82,15 @@ const all = (selected)=> {
       <!-- 操作栏 -->
       <div class="action">
         <div class="batch">
-          共 {{ CartStore.sumcount }} 件商品，已选择 2 件，商品合计：
+          共 {{ CartStore.sumcount }} 件商品，已选择 {{ CartStore.sumcheck }} 件，商品合计：
           <span class="red">¥ {{ CartStore.summoney.toFixed(2) }} </span>
         </div>
         <div class="total">
-          <el-button size="large" type="primary">下单结算</el-button>
+          <el-button size="large" type="primary" @click="$router.push('/checkout')">下单结算</el-button>
         </div>
       </div>
     </div>
-  </div>
+  </div> 
 </template>
  
 <style scoped lang="scss">

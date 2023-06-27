@@ -6,6 +6,9 @@ import Login from '../views/Login/login.vue'
 import SubCategory from '@/views/SubCategory/SubCategory.vue'
 import Detail from '@/views/Detail/Detail.vue'
 import CartList from '@/views/CartList/CartList.vue'
+import Checkout from '@/views/Checkout/Checkout.vue'
+import Pay from '@/views/Pay/pay.vue'
+import PayBack from '@/views/Pay/PayBack.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -18,7 +21,10 @@ const router = createRouter({
         { path: 'category/:id', name: 'Category',component: Category},
         { path: 'category/sub/:id', name: 'SubCategory',component: SubCategory},
         { path: 'detail/:id', name: 'Detail',component: Detail},
-        { path: 'cartlist', name: 'CartList',component: CartList}
+        { path: 'cartlist', name: 'CartList',component: CartList},
+        { path: 'checkout', name: 'Checkout',component: Checkout},
+        { path: 'pay', name: 'Pay',component: Pay},
+        { path: 'paycallback', name: 'PayBack',component: PayBack}
       ],
     },
     {

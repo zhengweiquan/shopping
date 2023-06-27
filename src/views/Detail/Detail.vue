@@ -4,9 +4,9 @@
 import { getDetail } from '@/apis/detail'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import DetaiHot  from '@/views/Detail/components/DetaiHot.vue'
+import DetaiHot from '@/views/Detail/components/DetaiHot.vue'
 import { ElMessage } from 'element-plus'
-import {useCartStore} from '@/stores/cartStore'
+import { useCartStore } from '@/stores/cartStore'
 const cartStore = useCartStore()
 // import ImageView from '@/components/ImageView/ImageView.vue'  //已经进行全局注册
 // import XtxSku from '@/components/XtxSku/index.vue'
@@ -19,17 +19,17 @@ const getGoods = async () => {
 onMounted(() => getGoods())
 // sku规格被操作是返回的数据
 let skuObj = {}
-const skuChange = (sku)=> {
+const skuChange = (sku) => {
   skuObj = sku
 }
 // 点击商品加一按钮
 const count = ref(1)
-const countChange = ()=> {
+const countChange = () => {
   // console.log(count.value)
 }
 // 添加购物车
-const addCart = ()=> {
-  if(skuObj.skuId) {
+const addCart = () => {
+  if (skuObj.skuId) {
     // 规则以及选择完全  
     cartStore.addCart({  //传数据进去
       id: goods.value.id,
@@ -41,16 +41,24 @@ const addCart = ()=> {
       attrsText: skuObj.specsText,
       selected: true
     })
-  }else {
+  } else {
     // 规则没有选完
     ElMessage.warning('请选择商品规格')
   }
 }
+const loading = ref(true)
 </script>
  
 <template>
+  <div class="tops" v-if="!goods.categories" v-loading="loading" element-loading-text="加载中..." >
+    <el-skeleton style="--el-skeleton-circle-size: 100px">
+      <template #template>
+        <el-skeleton-item variant="circle" />
+      </template>
+    </el-skeleton>
+  </div>
   <div class="xtx-goods-page">
-    <div class="container" v-if="goods.categories">  <!--这个v-if可以解决没有数据不渲染-->
+    <div class="container" v-if="goods.categories"> <!--这个v-if可以解决没有数据不渲染-->
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <!-- 由于一开始goods.categories[1]是空值，所以要 ?. 进行判断，有值就进行渲染  goods.categories?.[1].id-->
@@ -96,7 +104,7 @@ const addCart = ()=> {
             <div class="spec">
               <!-- 商品信息区 -->
               <p class="g-name"> {{ goods.name }} </p>
-              <p class="g-desc">{{goods.desc}} </p>
+              <p class="g-desc">{{ goods.desc }} </p>
               <p class="g-price">
                 <span>{{ goods.price }}</span>
                 <span> {{ goods.oldPrice }}</span>
@@ -154,7 +162,7 @@ const addCart = ()=> {
               <!-- 24H -->
               <DetaiHot :top="'24H榜单'" :Hottype="1"></DetaiHot>
               <!-- 周 -->
-              <DetaiHot  :top="'周日榜单'" :Hottype="2"></DetaiHot>
+              <DetaiHot :top="'周日榜单'" :Hottype="2"></DetaiHot>
             </div>
           </div>
         </div>
@@ -165,6 +173,9 @@ const addCart = ()=> {
  
  
 <style scoped lang='scss'>
+.tops {
+  margin-top: 20px;
+}
 .xtx-goods-page {
   .goods-info {
     min-height: 600px;

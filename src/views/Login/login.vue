@@ -3,9 +3,11 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router' //跳转路由到登录页面
 import { ElMessage } from 'element-plus'
+import {useCartStore} from '@/stores/cartStore'
 import 'element-plus/theme-chalk/el-message.css'
 // import { loginAPI } from '@/apis/user'  //数据提交登录
 import { useUseStore } from '@/stores/user'  //数据获取
+const CartStore = useCartStore()
 const useStore = useUseStore()
 const Router = useRouter()
 // 自定义校验规则函数
@@ -54,6 +56,8 @@ const doLogin = () => {
       // 提示用户
       ElMessage({ type: 'success', message: '登录成功' })
       Router.replace({ path: '/' })  //跳转路由到首页
+      // 更新购物车数据
+      CartStore.updateNewList()
     } else {
       console.log('请填写数据')
       return false
@@ -82,7 +86,7 @@ const doLogin = () => {
           <a href="javascript:;">账户登录</a>
         </nav>
         <div class="account-box">
-          <div class="form">
+          <div class="form"> 
             <el-form ref="formRef" label-position="right" label-width="60px" :model="form" :rules="rules" status-icon>
               <el-form-item label="账户" prop="account">
                 <el-input v-model="form.account2" />
@@ -95,7 +99,7 @@ const doLogin = () => {
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
-              <el-button class="aotu" @click="aotuwrite">自动填写账号密码</el-button>
+              <el-button class="aotu"  @click="aotuwrite">自动填写账号密码</el-button>
               <el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
             </el-form>
           </div>
@@ -348,8 +352,12 @@ const doLogin = () => {
 }
 
 .aotu {
+  height: 40px;
+  font-weight: 700;
+  color: #fff;
+  background: $xtxColor;
   margin-left: 12px !important;
-  width: 99%;
+  width: 100%;
   margin-left: 0;
 }
 </style>

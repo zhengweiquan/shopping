@@ -10,7 +10,7 @@ const getHomeNew = async () => {
 onMounted(() => {
   getHomeNew()
 })
-
+ 
 </script>
  
 <template>
